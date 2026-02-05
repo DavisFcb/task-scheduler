@@ -1,12 +1,12 @@
-FROM node:alphine3.23 as build
+FROM node:20-alpine as build
 WORKDIR /app
 COPY package.json .
 RUN npm install
-COPY . . .
+COPY . .
 RUN npm run build
 
 # Step 2: Serve the app with a NGINX server
-FROM nginx:1.23=alpine
+FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 RUN rm -rf *
 COPY --from=build /app/dist .
